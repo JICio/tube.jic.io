@@ -1,0 +1,1 @@
+{"tz":"Unity DOTS vs 手写引擎：示例项目对比","sz":"Nick Caston 将 Unity 的 ECS/DOTS 示例（AngryBots）与自己从零用 C++/OpenGL 实现的克隆进行性能基准测试，并讨论两者的开发成本。","wz":"在游戏引擎性能争论中提供了具体数据，显示自研引擎在投入数倍工作量后可大幅超越 Unity。"}

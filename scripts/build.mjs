@@ -41,9 +41,8 @@ const catalog = [];
 let withMeta = 0, withZh = 0;
 for (const v of videos) {
   const m = meta[v.vid] || {};
-  const z = zh[v.vid] || {};
+  const z = {};
   if (m.duration) withMeta++;
-  if (z.sz) withZh++;
   const year = m.upload_date ? Number(String(m.upload_date).slice(0, 4)) : null;
   catalog.push({
     id: v.vid, t: v.title, tz: z.tz || '', c: v.channel, d: m.duration || 0, v: m.view_count || 0, y: year,
@@ -74,7 +73,6 @@ for (const list of Object.values(byChannel)) {
     const topic = topicArea[z.topic] ? z.topic : '';
     const area = topicArea[topic] || '';
     const score = Math.round(Math.log10(c.views + 1) * 15) / 10;   // 100 万播放 ≈ 9，和 HN 分数同量级
-    if (z.tz) chZh++;
     chCount++;
     catalog.push({ id: c.id, t: c.title, tz: z.tz || '', c: c.channel, d: c.duration, v: c.views, y: null, s: score, ct: c.kind, lv: 'general', sl: 'evergreen', a: area, tp: topic ? [topic] : [], pt: '', hy: null, rm: 0, src: 'ch' });
     putCard({

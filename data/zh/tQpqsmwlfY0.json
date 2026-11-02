@@ -1,0 +1,1 @@
+{"tz":"Jonathan Diegelman：用 Julia 建模航天器分离动力学","sz":"NASA 发射服务项目工程师在 JuliaCon 讲述如何用 Julia 与 ModelingToolkit 替代 Simulink，完成航天器分离需求的检查，显著提升速度并大幅缩短代码。","wz":"因展示了 NASA 将 Simulink 替换为 Julia 后实现 15000 倍加速的真实案例，屡被引用。"}

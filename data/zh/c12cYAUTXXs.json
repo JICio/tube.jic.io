@@ -1,0 +1,1 @@
+{"tz":"Erlang Factory 2014：WhatsApp 的十亿级扩展","sz":"WhatsApp 的 Rick Reed 在 Erlang Factory 2014 讲述了团队如何在极小的工程规模下支撑数十亿条消息。内容涵盖 FreeBSD 与 Erlang 堆栈、Mnesia 使用、服务器数量以及瓶颈优化。","wz":"它清晰展示了 Erlang 如何让小团队支撑海量消息系统，因而被频繁推荐。"}

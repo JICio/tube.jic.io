@@ -14,10 +14,8 @@ export async function onRequestPost(context) {
   if (body.mode === 'classify') {
     const tax = await env.ASSETS.fetch(new URL('/data/taxonomy.json', request.url)).then((r) => r.json()).catch(() => ({ areas: [] }));
     const topics = tax.areas.flatMap((a) => a.topics.map((t) => `${t.id}: ${t.name}`)).join('\n');
-    prompt = `你是 JIC 的编辑。下面是官方频道上传的长视频（纪录片、讲座），只有英文标题和频道名。对每条：
-1. 把标题译成自然、短的简体中文，去掉频道后缀（如"| DW Documentary"）和"(Full Episode)""(full documentary)"这类标记，专有名词保留英文或用通行译名；
-2. 从下面的主题清单里选最贴切的一个主题 id（只能用清单里的 id）。
-不加解释。只输出 JSON 数组，每项 {"id":"…","tz":"中文标题","topic":"主题id"}。
+    prompt = `下面是官方频道上传的长视频（纪录片、讲座），只有英文标题和频道名。对每条，从主题清单里选最贴切的一个主题 id（只能用清单里的 id）。
+不加解释。只输出 JSON 数组，每项 {"id":"…","topic":"主题id"}。
 主题清单：
 ${topics}
 输入：
