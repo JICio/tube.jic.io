@@ -1,0 +1,1 @@
+{"tz":"RustLatam 2019：Zero‑Cost 异步 IO","sz":"Rust 团队成员 Without Boats 在 RustLatam 2019 上讲解 Rust 的 async/await 设计，回顾其历史并说明零成本、无分配的异步状态机背后的约束。","wz":"在 await 语法争论中，它被推荐用来说明 Rust 异步设计的限制与取舍。"}

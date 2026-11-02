@@ -8,7 +8,7 @@ tube.jic.io 收的是人类社区多年反复推荐的长视频，按「被推�
 ## 读（公开，不用登录）
 - GET https://tube.jic.io/data/catalog.json — 全部目录，每条一个紧凑对象：id（YouTube id）、t 标题、tz 中文标题、c 频道、d 时长（秒）、v 播放量、y 年份、s 分数、ct 类型、lv 难度、a 领域、tp 主题、rm 被推荐的月份数。
 - GET https://tube.jic.io/data/taxonomy.json — 16 个领域 → 150 个主题（id、name、zh、desc）。
-- GET https://tube.jic.io/data/v/<id>.json — 完整卡片：摘要、为何值得看、HN 原话（含评论 id）、标签、HN 统计、相关视频、来源链接。
+- GET https://tube.jic.io/data/c/<分片>.json — 一片完整卡片，按 id 取；分片 = id 的 Java 式 31 哈希（uint32）对 512 取余，不想算就用下面的 brief 接口：摘要、为何值得看、HN 原话（含评论 id）、标签、HN 统计、相关视频、来源链接。
 - GET https://tube.jic.io/v1/works/<id>/brief — 给 JIC 论坛用的 { id, title, url, owner, live, createdAt, thumb }。
 - 页面：/a/<领域>、/t/<主题>、/search?q=…、/v/<id>。
 

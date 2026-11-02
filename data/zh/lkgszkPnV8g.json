@@ -1,0 +1,1 @@
+{"tz":"CppCon 2017：Facebook 常见的 C++ 隐蔽 Bug","sz":"Louis Brandy 讲解 Facebook 大规模代码库中常见的 C++ bug，如 shared_ptr 竞争和 operator[] 陷阱，揭示看似简单代码背后的复杂性。","wz":"被视为 C++ 陷阱大全，常在 Rust 与 C++ 安全性争论中被推荐。"}

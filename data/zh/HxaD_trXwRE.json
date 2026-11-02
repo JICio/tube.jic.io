@@ -1,0 +1,1 @@
+{"tz":"Go 语言词法扫描 - Rob Pike","sz":"Rob Pike 讲解 Go text/template 词法分析器的构建方式，使用状态函数、goroutine 与 channel。该演讲于 2011 年在悉尼的 Google 技术用户组进行。","wz":"HN 多年反复推荐它，因其以简洁优雅的方式介绍了即使没有解析背景也能轻松编写词法分析器。"}

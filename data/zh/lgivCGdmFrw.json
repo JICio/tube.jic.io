@@ -1,0 +1,1 @@
+{"tz":"在大型 C++ 项目中引入内存安全的继任语言 – John McCall (CppNow 2023)","sz":"Apple Swift 团队的 John McCall 在 CppNow 2023 上演讲，讲解如何在庞大的 C++ 代码库中逐步引入内存安全的继任语言，并说明 Swift 与 C++ 的互操作性如何支持渐进迁移。","wz":"它被用作 Apple 宣布 Swift 将取代 C++ 并通过互操作实现平滑过渡的主要依据。"}

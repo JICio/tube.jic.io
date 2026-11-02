@@ -1,0 +1,1 @@
+{"tz":"CUFP 2013：Julien Verlaguet 讲 Facebook 静态分析 PHP","sz":"Facebook 的 Julien Verlaguet 讲解使用 OCaml 对庞大 PHP 代码库进行静态分析和类型推断的实践，最终催生 Hack 语言。","wz":"因为它是 Hack 语言诞生的原始故事，展示了 OCaml 在生产环境的应用。"}

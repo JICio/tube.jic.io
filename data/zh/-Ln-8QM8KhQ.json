@@ -1,0 +1,1 @@
+{"tz":"这个网站怎么这么快？","sz":"Wes Bos 解析 McMaster‑Carr 网站的高速实现手段，包括服务器渲染的 HTML、预取、CDN 与 Service Worker 缓存、预加载、关键 CSS 以及固定尺寸图片。他还指出该站仍使用传统的 jQuery 和 YUI 脚本。","wz":"HN 认为它是目前最清晰的前端性能剖析，对比现代 UI 的卡顿。"}

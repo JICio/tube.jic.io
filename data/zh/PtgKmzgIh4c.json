@@ -1,0 +1,1 @@
+{"tz":"Twitter 的全 Graal 运行时之路（Chris Thalinger）","sz":"Twitter 的 Chris Thalinger 在 2018 年 Scala Days NYC 会议上阐述公司将 Scala 服务迁移至 Graal JIT 编译器的全过程。内容包括性能提升以及在生产环境中部署 Graal 的经验。","wz":"HN 用它证明 Twitter 已在生产中使用 GraalVM 并取得显著性能提升。"}

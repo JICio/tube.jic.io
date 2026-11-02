@@ -1,0 +1,1 @@
+{"tz":"ElixirConf 2018 主旨演讲：Chris McCord","sz":"Chris McCord 在 ElixirConf 2018 上的主旨演讲首次介绍了 Phoenix LiveView，展示了服务器端渲染 HTML 并通过 WebSocket 实时更新页面的技术。演示表明延迟并非预期的瓶颈，凸显了 LiveView 的优势。","wz":"因为它是 LiveView 的首秀演示，强有力地论证了服务器端渲染的可行性。"}

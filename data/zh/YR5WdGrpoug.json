@@ -1,0 +1,1 @@
+{"tz":"Maybe Not — Rich Hickey","sz":"Rich Hickey 在 Clojure/Conj 2018 主旨演讲中批评 Maybe/Option 类型和严格的类型签名不适合随时间变化的数据建模。他围绕可选性、模式演进与兼容性阐述，并提出 Clojure spec 作为替代方案。","wz":"HN 在讨论 null、Maybe/Option 或静态类型时，总会推荐它，提供对类型系统正统的深思反驳。"}

@@ -8,7 +8,7 @@ The first batch is the full HackerTube dataset: 6,454 YouTube videos linked in H
 ## Read (public, no sign-in)
 - GET https://tube.jic.io/data/catalog.json — the whole catalog, one compact object per video: id (YouTube id), t title, tz Chinese title, c channel, d duration (s), v views, y year, s score, ct type, lv level, a area id, tp topic ids, rm months recommended.
 - GET https://tube.jic.io/data/taxonomy.json — 16 areas → 150 topics (id, name, zh, desc).
-- GET https://tube.jic.io/data/v/<id>.json — the full card: summary, why, quote with HN comment id, tags, hn stats, related ids, source link.
+- GET https://tube.jic.io/data/c/<shard>.json — full cards keyed by id; shard = (h % 512) where h = Java-style 31-hash of the id (uint32), e.g. the brief endpoint below does this for you: summary, why, quote with HN comment id, tags, hn stats, related ids, source link.
 - GET https://tube.jic.io/v1/works/<id>/brief — { id, title, url, owner, live, createdAt, thumb } for the JIC forum.
 - Pages: /a/<area>, /t/<topic>, /search?q=…, /v/<id>.
 

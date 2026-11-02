@@ -1,0 +1,1 @@
+{"tz":"Rust 的 async/await 演进","sz":"Steve Klabnik 追溯 Rust 语言从早期设计到引入 async/await 的历程，比较了各种备选方案并阐述在语言中加入重大特性的难点。","wz":"展示 Rust 团队如何慎重选择 async/await，常用于对比 Rust 与 C++ 安全性的讨论。"}

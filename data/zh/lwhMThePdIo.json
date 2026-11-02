@@ -1,0 +1,1 @@
+{"tz":"WSL2 架构深度解析","sz":"微软 Build 2019 会议上，WSL 团队详细阐述了全新 WSL 2 架构——在 Hypervisor 上同时运行真实的 Linux 内核与 Windows。内容涵盖更快的文件性能、Windows 对 Linux 文件的访问以及更好的应用兼容性。","wz":"被 HN 视为了解 WSL2 工作原理及微软为何重写它的权威来源。"}

@@ -1,0 +1,1 @@
+{"tz":"CppCon 2015：Andrei Alexandrescu 论 std::allocator","sz":"Andrei Alexandrescu 在 2015 年 CppCon 上指出 std::allocator 设计糟糕，主张通过小型可组合的模板组件构建高性能分配器。 他展示了如何将这些组件拼接以实现更快的内存分配。","wz":"在 HN 上屡被推荐，因其有趣且开阔思路的分配器设计与可组合泛型编程演讲。"}

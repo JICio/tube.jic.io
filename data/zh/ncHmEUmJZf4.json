@@ -1,0 +1,1 @@
+{"tz":"CppCon 2017：Matt Kulukundis《一步步设计高速缓存友好哈希表》","sz":"Matt Kulukundis 详细讲解了 Google 如何从 std::unordered_map 设计出 SwissTable——一种高速、缓存友好的哈希表。内容涵盖开放寻址、SIMD 探测以及更改基础数据结构的权衡。","wz":"HN 多次把它当作 SwissTable、Abseil、Rust 哈希映射和 Go map 设计的权威解释。"}

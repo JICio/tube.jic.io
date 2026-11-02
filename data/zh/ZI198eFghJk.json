@@ -1,0 +1,1 @@
+{"tz":"Carbon 工具链的编译器设计现代化 - Chandler Carruth - CppNow 2023","sz":"Chandler Carruth 在 CppNow 2023 讲述为 Carbon 工具链现代化编译器设计，采用面向数据的设计和现代硬件假设，涵盖词法分析、解析和紧凑数据结构以提升性能。","wz":"因其对编译器架构的最新思考，被推荐在讨论扁平 AST 与高速词法分析时引用。"}

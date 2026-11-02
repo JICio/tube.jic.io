@@ -1,0 +1,1 @@
+{"tz":"“NTFS 并不糟糕”——Robert Collins（LCA 2020）","sz":"Robert Collins 说明了 rustup 在 Windows 上安装缓慢的原因，并展示通过 rustup 与 Windows 的改进将时间从 3 分 30 秒缩短至 14 秒，涉及 NTFS、小文件以及杀毒软件拦截文件关闭的开销。","wz":"成为解释 Windows 文件操作慢的权威参考，指出真正瓶颈在杀毒而非 NTFS 本身。"}

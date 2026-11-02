@@ -1,0 +1,1 @@
+{"tz":"Clojure 不畏 GPU — Dragan Djuric","sz":"Dragan Djuric 介绍了 Clojure 的 GPU 与数值计算库，如 ClojureCL、ClojureCUDA 和 Neanderthal。演示了在 REPL 动态工作流中结合底层硬件加速用于机器学习和数据科学。","wz":"HN 赞赏其展示了 Clojure 在 GPU 加速上的实力以及与 JVM、CPU 的对比。"}

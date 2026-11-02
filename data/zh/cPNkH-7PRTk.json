@@ -1,0 +1,1 @@
+{"tz":"Rich Hickey《面向 Lisp 程序员的 Clojure》第一部分","sz":"Rich Hickey 在波士顿 Lisp 会议上做了面向已有 Lisp 经验者的 Clojure 深入介绍，阐述了相较于其他 Lisp 的语言设计决策。他解释了为何选择不同的宏系统以及不基于 SBCL 等实现。","wz":"HN 常引用它来说明 Hickey 对宏等设计选择的思考。"}

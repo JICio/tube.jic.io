@@ -1,0 +1,1 @@
+{"tz":"ElixirConf 2021：Isaac Yonemoto - Zig 与 Elixir","sz":"Isaac Yonemoto 在 ElixirConf 2021 上分享了 Zigler——一个用 Zig 编写 Elixir NIF 的库。演讲深入其内部实现，说明如何在两种语言之间桥接，并确保 NIF 在 BEAM 上表现良好。","wz":"在 Zig 与 Elixir 讨论中被视为作者对如何让 Zig NIF 在 BEAM 中安全运行的权威解释。"}

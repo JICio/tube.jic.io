@@ -1,0 +1,1 @@
+{"tz":"在 FPGA 上用 nMigen 构建 6800 CPU（上）","sz":"Robert Baruch 系列的第一集，演示如何使用基于 Python 的硬件描述语言 nMigen 在 FPGA 上实现 6800 CPU。视频先介绍 HDL 基础，再实现一个简化的 6800 核心。","wz":"因其对 nMigen 入门和 CPU 形式化验证的实用演示，常被 HN 推荐。"}

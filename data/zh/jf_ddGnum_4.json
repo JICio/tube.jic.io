@@ -1,0 +1,1 @@
+{"tz":"用 Rust 实现 BitTorrent 客户端（部分）","sz":"Jon Gjengset 在约四小时的直播中，用 Rust 从零实现 BitTorrent 客户端的部分功能，并演示了符合惯用写法的错误处理。整个过程遵循 CodeCrafters 的测试驱动挑战。","wz":"HN 推荐它因为提供了完整的自制 BitTorrent 实战教程，也是 CodeCrafters 入门的好示例。"}

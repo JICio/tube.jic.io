@@ -1,0 +1,1 @@
+{"tz":"用 Clojure 解决问题——Rafal Dittwald","sz":"Rafal Dittwald 在 Clojure/north 演讲中展示了如何从 Java 风格的代码转向数据驱动、函数式思维。他以 JavaScript 示例逐步将命令式代码重构为函数式核心与命令式外壳。","wz":"HN 常把它当作展示过程式、面向对象与函数式三种解法以及 functional core / imperative shell 的最佳案例。"}

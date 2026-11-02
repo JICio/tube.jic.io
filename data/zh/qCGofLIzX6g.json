@@ -1,0 +1,1 @@
+{"tz":"Python 的内部泄漏如何塑造语言——Armin Ronacher 讲 Flask","sz":"Flask 创始人 Armin Ronacher 说明 CPython 的内部实现和 C API 如何渗透到语言语义，举例加法操作的复杂性，展示 Python 难以优化或重实现的根源。","wz":"HN 把它当作解释 Python 性能瓶颈的标准答案，JIT 与替代运行时开发者常引用。"}

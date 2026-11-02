@@ -13,12 +13,13 @@ const TYPE_ZH = { talk: '演讲', lecture: '讲座', course: '课程', explainer
 const LEVEL_ZH = { general: '通识', intro: '入门', intermediate: '进阶', advanced: '高阶' };
 const PAGE = 48;
 let catalog = [], taxonomy = { areas: [] }, byId = new Map(), topicName = new Map(), areaName = new Map();
-const state = { area: '', topic: '', type: '', dur: '', sort: 'hn', q: '', shown: PAGE };
+const state = { area: '', topic: '', type: '', dur: '', sort: 'hn', src: '', q: '', shown: PAGE };
 
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
 const fmtDur = (s) => { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return h ? `${h}:${String(m).padStart(2, '0')}:${String(x).padStart(2, '0')}` : `${m}:${String(x).padStart(2, '0')}`; };
 const fmtViews = (n) => !n ? '' : n >= 1e8 ? `${(n / 1e8).toFixed(1)} 亿次` : n >= 1e4 ? `${Math.round(n / 1e4)} 万次` : `${n} 次`;
 const thumb = (id, big = false) => `https://i.ytimg.com/vi/${id}/${big ? 'hqdefault' : 'mqdefault'}.jpg`;
+const shardOf = (id) => { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h % 512; };
 const tName = (id) => topicName.get(id) || id;
 const aName = (id) => areaName.get(id) || id;
 
@@ -78,7 +79,7 @@ searchForm.addEventListener('submit', (e) => { e.preventDefault(); go(`/search?q
 function filtered() {
   const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
   let list = catalog.filter((v) => (!state.area || v.a === state.area) && (!state.topic || v.tp.includes(state.topic))
-    && (!state.type || v.ct === state.type)
+    && (!state.type || v.ct === state.type) && (!state.src || v.src === state.src)
     && (state.dur !== 'long' || v.d >= 1200) && (state.dur !== 'xlong' || v.d >= 3600) && (state.dur !== 'short' || (v.d > 0 && v.d < 1200))
     && (!terms.length || terms.every((w) => `${v.t} ${v.tz} ${v.c} ${v.pt} ${v.tp.map(tName).join(' ')}`.toLowerCase().includes(w))));
   const key = { hn: (v) => -v.s, views: (v) => -v.v, year: (v) => -(v.y || 0), dur: (v) => -v.d }[state.sort];
@@ -93,7 +94,7 @@ function renderList() {
   const title = state.q ? `搜索「${state.q}」` : topic ? (topic.zh || topic.name) : area ? (area.zh || area.name) : '全部长片';
   head.append(el('h1', '', title), el('span', 'n', `${list.length} 条`));
   if (topic?.desc && !state.q) head.append(el('p', '', topic.desc));
-  else if (!state.area && !state.q) head.append(el('p', '', '人类社区多年反复推荐的长视频，不靠平台算法。按「被推荐的月份数」排序：被一再提起的排前面，一时爆红的不算。'));
+  else if (!state.area && !state.q) head.append(el('p', '', '两个来源：Hacker News 多年反复推荐的长视频（按被推荐的月份数排，一时爆红的不算），加上官方频道免费放出的完整纪录片和讲座（按播放量排）。'));
   main.append(head);
   if (area && !state.q) {
     const chips = el('div', 'chips');
@@ -102,7 +103,7 @@ function renderList() {
     main.append(chips);
   }
   const bar = el('div', 'toolbar');
-  bar.append(select('type', [['', '全部类型'], ...Object.entries(TYPE_ZH)], state.type), select('dur', [['', '全部时长'], ['long', '20 分钟以上'], ['xlong', '1 小时以上'], ['short', '20 分钟以内']], state.dur), select('sort', [['hn', 'HN 推荐度'], ['views', '播放量'], ['year', '最新'], ['dur', '最长']], state.sort));
+  bar.append(select('src', [['', '全部来源'], ['hn', 'Hacker News 推荐'], ['ch', '官方频道纪录片']], state.src), select('type', [['', '全部类型'], ...Object.entries(TYPE_ZH)], state.type), select('dur', [['', '全部时长'], ['long', '20 分钟以上'], ['xlong', '1 小时以上'], ['short', '20 分钟以内']], state.dur), select('sort', [['hn', '推荐度'], ['views', '播放量'], ['year', '最新'], ['dur', '最长']], state.sort));
   main.append(bar);
   if (!list.length) { main.append(el('p', 'empty', '没有找到。换个词，或者去掉筛选。')); return; }
   const grid = el('div', 'grid');
@@ -121,6 +122,7 @@ function card(v) {
   const th = el('div', 'thumb'); const img = el('img'); img.src = thumb(v.id); img.alt = ''; img.loading = 'lazy'; th.append(img);
   if (v.d) th.append(el('span', 'dur', fmtDur(v.d)));
   if (v.rm >= 3) th.append(el('span', 'hn', `HN · ${v.rm} 个月推荐`));
+  else if (v.src === 'ch') th.append(el('span', 'hn ch', '官方频道'));
   a.append(th, el('h3', '', v.tz || v.t));
   if (v.tz) a.append(el('div', 'en', v.t));
   a.append(el('div', 'meta', [v.c, fmtViews(v.v), v.y ? `${v.y} 年` : '', TYPE_ZH[v.ct] || ''].filter(Boolean).join(' · ')));
@@ -130,7 +132,7 @@ function card(v) {
 // ---- 视频页 ----
 async function renderVideo(id) {
   main.replaceChildren(el('p', 'loading', '正在装入…'));
-  const v = await fetch(`/data/v/${id}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const v = await fetch(`/data/c/${shardOf(id)}.json`).then((r) => (r.ok ? r.json() : null)).then((m) => m?.[id] || null).catch(() => null);
   if (!v) { main.replaceChildren(el('p', 'empty', '没有这条视频。')); return; }
   document.title = `${v.tz || v.title} · JIC 长片`;
   const wrap = el('div', 'video');
@@ -143,22 +145,23 @@ async function renderVideo(id) {
   player.append(play);
   const meta = el('div', 'meta');
   for (const t of [v.channel, fmtDur(v.duration), fmtViews(v.views), v.uploaded ? `${v.uploaded.slice(0, 4)} 年` : '', TYPE_ZH[v.type] ? `${TYPE_ZH[v.type]} · ${LEVEL_ZH[v.level] || ''}` : '']) if (t) meta.append(el('span', '', t));
-  meta.append(el('span', 'hnpill', `Hacker News 在 ${v.hn.rec_months} 个月里推荐过 · ${v.hn.recommenders} 人 · ${v.hn.first_year}–${v.hn.last_year}`));
+  if (v.hn) meta.append(el('span', 'hnpill', `Hacker News 在 ${v.hn.rec_months} 个月里推荐过 · ${v.hn.recommenders} 人 · ${v.hn.first_year}–${v.hn.last_year}`));
+  else meta.append(el('span', 'hnpill', `${v.channel} 官方上传的完整长片`));
   const desc = el('div', 'desc');
-  desc.append(el('p', '', v.sz || v.summary));
+  if (v.sz || v.summary) desc.append(el('p', '', v.sz || v.summary));
   if (v.wz || v.why) { const why = el('div', 'why'); why.append(el('b', '', 'HN 为什么推荐它：'), ' ', v.wz || v.why); desc.append(why); }
   if (v.sz) { const t = el('button', 'en-toggle', '看英文原文'); t.type = 'button'; const en = el('div'); en.hidden = true; en.append(el('p', '', v.summary), el('p', '', v.why)); t.addEventListener('click', () => { en.hidden = !en.hidden; t.textContent = en.hidden ? '看英文原文' : '收起英文'; }); desc.append(t, en); }
   if (v.quote?.text) { const bq = el('blockquote', '', `“${v.quote.text}”`); const l = el('a', '', `— Hacker News 评论，${v.quote.year || ''} ↗`); l.href = `https://news.ycombinator.com/item?id=${v.quote.hn_comment_id}`; l.target = '_blank'; l.rel = 'noopener'; bq.append(l); desc.append(bq); }
   const links = el('div', 'links');
   const yt = el('a', '', '在 YouTube 打开 ↗'); yt.href = v.url; yt.target = '_blank'; yt.rel = 'noopener';
-  const ht = el('a', '', '在 HackerTube 看 HN 怎么说 ↗'); ht.href = v.source.url; ht.target = '_blank'; ht.rel = 'noopener';
+  const ht = el('a', '', v.hn ? '在 HackerTube 看 HN 怎么说 ↗' : `${v.source.name} ↗`); ht.href = v.source.url; ht.target = '_blank'; ht.rel = 'noopener';
   links.append(yt, ht);
   for (const c of v.categories) { const t = el('a', '', `# ${tName(c.id)}`); t.href = `/t/${c.id}`; t.dataset.nav = ''; links.append(t); }
   wrap.append(crumb, player, el('h1', '', v.tz || v.title));
   if (v.tz) wrap.append(el('p', 'ent', v.title));
   wrap.append(meta, desc, links);
   const rel = (v.related || []).map((r) => byId.get(r)).filter(Boolean);
-  if (rel.length) { wrap.append(el('h2', '', 'HN 的人还推荐')); const g = el('div', 'grid'); for (const r of rel.slice(0, 8)) g.append(card(r)); wrap.append(g); }
+  if (rel.length) { wrap.append(el('h2', '', v.hn ? 'HN 的人还推荐' : `${v.channel} 的其他长片`)); const g = el('div', 'grid'); for (const r of rel.slice(0, 8)) g.append(card(r)); wrap.append(g); }
   wrap.append(el('h2', '', '讨论'));
   const thread = el('div', 'jic-thread'); thread.dataset.site = 'tube.jic.io'; thread.dataset.id = v.id; wrap.append(thread);
   main.replaceChildren(wrap);
