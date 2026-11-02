@@ -14,7 +14,7 @@ import { repair, valid } from './i18n-guard.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LOC = join(ROOT, 'public/locales');
 const LANGS = ['en', 'zh-Hant', 'fr', 'es', 'ja', 'ko', 'hi'];
-const HOST = process.env.U_HOST || 'ubuntu@3.23.17.82';
+const HOST = process.env.U_HOST || 'jic';   // ~/.ssh/config 里的 u.jic.io 服务器别名
 const UDIR = '/home/ubuntu/jic-lab/u';
 const CJK = /[\u4e00-\u9fff]/;
 const check = process.argv.includes('--check');
