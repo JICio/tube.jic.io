@@ -27,6 +27,8 @@ const zh = {};
 if (existsSync(ZH)) for (const f of readdirSync(ZH)) if (f.endsWith('.json')) { try { zh[f.slice(0, -5)] = JSON.parse(readFileSync(join(ZH, f), 'utf8')); } catch {} }
 const CH = new URL('../data/channels.jsonl', import.meta.url).pathname;   // 官方频道长片：{id,title,channel,handle,duration,views,kind}
 const channels = existsSync(CH) ? readFileSync(CH, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : [];
+const RD = new URL('../data/reddit.jsonl', import.meta.url).pathname;   // Reddit 推荐：{id,title,channel,duration,views,uploaded,people,months,first,last,subs,posts,kind}
+const reddit = existsSync(RD) ? readFileSync(RD, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : [];
 const taxZh = existsSync(join(ZH, '_taxonomy.json')) ? JSON.parse(readFileSync(join(ZH, '_taxonomy.json'), 'utf8')) : {};
 
 // 领域 / 主题
@@ -85,7 +87,29 @@ for (const list of Object.values(byChannel)) {
     });
   }
 }
+// Reddit 推荐：HN 和频道里已有的跳过；分数 = 推荐人数 + 月份数 / 2，和 HN 分数同量级
+const seen = new Set(catalog.map((v) => v.id));
+let rdCount = 0;
+for (const r of reddit) {
+  if (seen.has(r.id)) continue;
+  const z = zh[r.id] || {};
+  const topic = topicArea[z.topic] ? z.topic : '';
+  const area = topicArea[topic] || '';
+  const score = Math.round((Math.min(r.people, 20) * 0.6 + Math.min(r.months, 30) * 0.4) * 10) / 10;   // 最高 24，和 HN 分数同量级（HN 最高 25）
+  const year = r.uploaded ? Number(String(r.uploaded).slice(0, 4)) : null;
+  rdCount++;
+  catalog.push({ id: r.id, t: r.title, tz: '', c: r.channel, d: r.duration, v: r.views, y: year, s: score, ct: r.kind, lv: 'general', sl: 'evergreen', a: area, tp: topic ? [topic] : [], pt: '', hy: Number(r.first), rm: r.months, src: 'rd' });
+  putCard({
+    id: r.id, src: 'rd', url: `https://www.youtube.com/watch?v=${r.id}`, title: r.title, tz: '', channel: r.channel, channelId: '',
+    duration: r.duration, views: r.views, likes: 0, uploaded: r.uploaded || '', lang: '',
+    summary: '', sz: '', why: '', wz: '', type: r.kind, level: 'general', shelf: 'evergreen', topic: '', tags: [],
+    categories: topic ? [{ id: topic, area }] : [], quote: null, hn: null, score,
+    reddit: { people: r.people, months: r.months, first: r.first, last: r.last, subs: r.subs, posts: r.posts.slice(0, 3) },
+    related: [],
+    source: { name: `r/${r.subs[0]}`, url: `https://www.reddit.com/r/${r.subs[0]}/comments/${r.posts[0].id}/` },
+  });
+}
 for (const [k, m] of Object.entries(shards)) writeFileSync(join(OUT, 'c', `${k}.json`), JSON.stringify(m));
 writeFileSync(join(OUT, 'catalog.json'), JSON.stringify(catalog));
-writeFileSync(join(OUT, 'stats.json'), JSON.stringify({ videos: catalog.length, hackertube: videos.length, channels: chCount, withMeta, withZh: withZh + chZh, built: new Date().toISOString() }));
-console.log(`catalog ${catalog.length} · HackerTube ${videos.length}（有时长 ${withMeta}，有译文 ${withZh}）· 官方频道 ${chCount}（有译文 ${chZh}）`);
+writeFileSync(join(OUT, 'stats.json'), JSON.stringify({ videos: catalog.length, hackertube: videos.length, channels: chCount, reddit: rdCount, withMeta, withZh: withZh + chZh, built: new Date().toISOString() }));
+console.log(`catalog ${catalog.length} · HackerTube ${videos.length}（有时长 ${withMeta}，有译文 ${withZh}）· 官方频道 ${chCount}（有译文 ${chZh}）· Reddit ${rdCount}`);

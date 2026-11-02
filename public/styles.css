@@ -126,6 +126,7 @@ img { display: block; }
 .foot { padding: 20px max(16px, env(safe-area-inset-right)) 28px; border-top: 1px solid var(--line); color: var(--faint); font-size: 12px; }
 .foot a { color: var(--muted); text-decoration: underline; }
 .card .hn.ch { color: #9ad8ff; border-color: rgba(154,216,255,.45); }
+.card .hn.rd { color: #ffb08a; border-color: rgba(255,176,138,.45); }
 .lang { height: 32px; padding: 0 6px; color: var(--muted); background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; }
 @media (max-width: 860px) { .lang { display: none; } }
 

@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 // 官方频道视频：译标题 + 归主题。读 data/channels.jsonl，POST 本地 /api/zh（mode=classify），写 data/zh/<id>.json {tz, topic}。已做的跳过。
-//   ZH_ADMIN=xxx node scripts/classify.mjs [起点 0] [条数]
+//   ZH_ADMIN=xxx node scripts/classify.mjs [某个.jsonl，默认 data/channels.jsonl] [起点 0] [条数]
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-const [,, START = '0', COUNT = '999999'] = process.argv;
+const args = process.argv.slice(2);
+const SRC = args[0] && args[0].endsWith('.jsonl') ? args.shift() : new URL('../data/channels.jsonl', import.meta.url).pathname;
+const [START = '0', COUNT = '999999'] = args;
 const ZH = new URL('../data/zh/', import.meta.url).pathname;
 mkdirSync(ZH, { recursive: true });
 const API = process.env.ZH_API || 'http://127.0.0.1:8791/api/zh';
 const ADMIN = process.env.ZH_ADMIN || '';
 if (!ADMIN) { console.error('缺 ZH_ADMIN'); process.exit(1); }
-const rows = readFileSync(new URL('../data/channels.jsonl', import.meta.url).pathname, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l))
+const rows = readFileSync(SRC, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l))
   .slice(Number(START), Number(START) + Number(COUNT));
 const todo = rows.filter((v) => !existsSync(join(ZH, `${v.id}.json`)));
 console.log(`待归类 ${todo.length} / ${rows.length}`);

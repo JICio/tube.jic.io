@@ -127,7 +127,7 @@ function renderList() {
   }
   const bar = el('div', 'toolbar');
   bar.append(
-    select('src', [['', t('全部来源')], ['hn', t('Hacker News 推荐')], ['ch', t('官方频道纪录片')]], state.src),
+    select('src', [['', t('全部来源')], ['hn', t('Hacker News 推荐')], ['rd', t('Reddit 推荐')], ['ch', t('官方频道纪录片')]], state.src),
     select('type', [['', t('全部类型')], ...Object.entries(TYPE_ZH).map(([k, v]) => [k, t(v)])], state.type),
     select('dur', [['', t('全部时长')], ['long', t('20 分钟以上')], ['xlong', t('1 小时以上')], ['short', t('20 分钟以内')]], state.dur),
     select('sort', [['hn', t('推荐度')], ['views', t('播放量')], ['year', t('最新')], ['dur', t('最长')]], state.sort),
@@ -186,7 +186,8 @@ function card(v) {
   const a = el('a', 'card'); a.href = `/v/${v.id}`; a.dataset.nav = '';
   const th = el('div', 'thumb'); const img = el('img'); img.src = thumb(v.id); img.alt = ''; img.loading = 'lazy'; th.append(img);
   if (v.d) th.append(el('span', 'dur', fmtDur(v.d)));
-  if (v.rm >= 3) th.append(el('span', 'hn', fill(t('HN · {0} 个月推荐'), v.rm)));
+  if (v.src === 'rd') th.append(el('span', 'hn rd', fill(t('Reddit · {0} 个月推荐'), v.rm)));
+  else if (v.rm >= 3) th.append(el('span', 'hn', fill(t('HN · {0} 个月推荐'), v.rm)));
   else if (v.src === 'ch') th.append(el('span', 'hn ch', t('官方频道')));
   a.append(th, el('h3', '', v.t));
   a.append(el('div', 'meta', [v.c, fmtViews(v.v), v.y ? fill(t('{0} 年'), v.y) : '', TYPE_ZH[v.ct] ? t(TYPE_ZH[v.ct]) : ''].filter(Boolean).join(' · ')));
@@ -210,14 +211,16 @@ async function renderVideo(id) {
   const meta = el('div', 'meta');
   for (const s of [v.channel, fmtDur(v.duration), fmtViews(v.views), v.uploaded ? fill(t('{0} 年'), v.uploaded.slice(0, 4)) : '', TYPE_ZH[v.type] ? `${t(TYPE_ZH[v.type])} · ${t(LEVEL_ZH[v.level] || '通识')}` : '']) if (s) meta.append(el('span', '', s));
   if (v.hn) meta.append(el('span', 'hnpill', fill(t('Hacker News 在 {0} 个月里推荐过 · {1} 人 · {2}–{3}'), v.hn.rec_months, v.hn.recommenders, v.hn.first_year, v.hn.last_year)));
+  else if (v.reddit) meta.append(el('span', 'hnpill', fill(t('Reddit 在 {0} 个月里推荐过 · {1} 人 · {2}–{3} · {4}'), v.reddit.months, v.reddit.people, v.reddit.first, v.reddit.last, v.reddit.subs.map((x) => `r/${x}`).join(' '))));
   else meta.append(el('span', 'hnpill', fill(t('{0} 官方上传的完整长片'), v.channel)));
   const desc = el('div', 'desc');
   if (v.summary) desc.append(el('p', '', v.summary));
   if (v.why) { const why = el('div', 'why'); why.append(el('b', '', t('HN 为什么推荐它：')), ' ', v.why); desc.append(why); }
+  if (v.reddit?.posts?.length) { const bq = el('blockquote', '', `“${v.reddit.posts[0].t}”`); const l = el('a', '', `— r/${v.reddit.posts[0].sub}，${v.reddit.posts[0].m} ↗`); l.href = `https://www.reddit.com/r/${v.reddit.posts[0].sub}/comments/${v.reddit.posts[0].id}/`; l.target = '_blank'; l.rel = 'noopener'; bq.append(l); desc.append(bq); }
   if (v.quote?.text) { const bq = el('blockquote', '', `“${v.quote.text}”`); const l = el('a', '', `— ${fill(t('Hacker News 评论，{0}'), v.quote.year || '')} ↗`); l.href = `https://news.ycombinator.com/item?id=${v.quote.hn_comment_id}`; l.target = '_blank'; l.rel = 'noopener'; bq.append(l); desc.append(bq); }
   const links = el('div', 'links');
   const yt = el('a', '', `${t('在 YouTube 打开')} ↗`); yt.href = v.url; yt.target = '_blank'; yt.rel = 'noopener';
-  const ht = el('a', '', `${v.hn ? t('在 HackerTube 看 HN 怎么说') : fill(t('{0} 官方频道'), v.channel)} ↗`); ht.href = v.source.url; ht.target = '_blank'; ht.rel = 'noopener';
+  const ht = el('a', '', `${v.hn ? t('在 HackerTube 看 HN 怎么说') : v.reddit ? t('在 Reddit 看讨论') : fill(t('{0} 官方频道'), v.channel)} ↗`); ht.href = v.source.url; ht.target = '_blank'; ht.rel = 'noopener';
   links.append(yt, ht);
   for (const c of v.categories) { const tp = el('a', '', `# ${tName(c.id)}`); tp.href = `/t/${c.id}`; tp.dataset.nav = ''; links.append(tp); }
   wrap.append(crumb, player, el('h1', '', v.title), meta, desc, links);
