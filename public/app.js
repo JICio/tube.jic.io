@@ -34,6 +34,7 @@ const thumb = (id, big = false) => `https://i.ytimg.com/vi/${id}/${big ? 'hqdefa
 const L = (o) => (o ? (isZh() && o.zh ? t(o.zh) : o.name) : '');
 const tName = (id) => L(topicById.get(id)) || id;
 const aName = (id) => L(areaById.get(id)) || id;
+const isPhone = () => window.matchMedia('(max-width: 860px)').matches;
 const shardOf = (id) => { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h % 512; };
 
 async function boot() {
@@ -109,10 +110,14 @@ function renderList() {
   const area = areaById.get(state.area);
   const topic = topicById.get(state.topic);
   const title = state.q ? fill(t('搜索「{0}」'), state.q) : topic ? L(topic) : area ? L(area) : t('全部长片');
-  head.append(el('h1', '', title), el('span', 'n', fill(t('{0} 条'), list.length.toLocaleString(lang()))));
+  if (isPhone() && area && !state.q && !topic) head.append(areaPicker(area, true));
+  else if (isPhone() && area && !state.q) head.append(areaPicker(area, false), el('h1', '', title));
+  else head.append(el('h1', '', title));
+  head.append(el('span', 'n', fill(t('{0} 条'), list.length.toLocaleString(lang()))));
   if (topic?.desc && !state.q) head.append(el('p', '', topic.desc));
   else if (!state.area && !state.q) head.append(el('p', '', t('两个来源：Hacker News 多年反复推荐的长视频（按被推荐的月份数排，一时爆红的不算），加上官方频道免费放出的完整纪录片和讲座（按播放量排）。')));
   main.append(head);
+  if (isPhone() && !state.area && !state.q) main.append(areaTiles());
   if (area && !state.q) {
     const chips = el('div', 'chips');
     const allChip = el('a', `chip${state.topic ? '' : ' on'}`, t('全部')); allChip.href = `/a/${area.id}`; allChip.dataset.nav = ''; chips.append(allChip);
@@ -134,6 +139,43 @@ function renderList() {
   const more = el('button', 'more'); more.type = 'button'; more.addEventListener('click', () => { state.shown += PAGE; draw(); });
   main.append(grid, more); draw();
 }
+// ---- 手机：领域砖 + 底部抽屉（桌面是左栏） ----
+function areaCounts() { const c = new Map(); for (const v of catalog) c.set(v.a, (c.get(v.a) || 0) + 1); return c; }
+function areaTiles() {
+  const counts = areaCounts();
+  const g = el('div', 'tiles');
+  for (const a of taxonomy.areas) {
+    const tile = el('a', 'tile'); tile.href = `/a/${a.id}`; tile.dataset.nav = '';
+    tile.append(el('i', '', AREA_ICON[a.id] || '▫️'), el('b', '', L(a)), el('small', '', String(counts.get(a.id) || 0)));
+    g.append(tile);
+  }
+  return g;
+}
+function areaPicker(area, big) {
+  const b = el('button', `picker${big ? ' big' : ''}`); b.type = 'button'; b.setAttribute('aria-haspopup', 'dialog');
+  b.append(el('i', '', AREA_ICON[area.id] || '▫️'), el('span', '', L(area)), el('em', '', '▾'));
+  b.addEventListener('click', openSheet);
+  return b;
+}
+function openSheet() {
+  closeSheet();
+  const counts = areaCounts();
+  const bg = el('div', 'sheet-bg'); bg.id = 'sheet';
+  const sh = el('div', 'sheet'); sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-label', t('领域'));
+  sh.append(el('div', 'grip'), el('div', 'sheet-h', t('领域')));
+  const list = el('div', 'sheet-list');
+  const all = el('a', state.area ? '' : 'on'); all.href = '/'; all.dataset.nav = ''; all.append(el('i', '', '🏠'), el('b', '', t('全部')), el('small', '', String(catalog.length))); list.append(all);
+  for (const a of taxonomy.areas) { const x = el('a', a.id === state.area ? 'on' : ''); x.href = `/a/${a.id}`; x.dataset.nav = ''; x.append(el('i', '', AREA_ICON[a.id] || '▫️'), el('b', '', L(a)), el('small', '', String(counts.get(a.id) || 0))); list.append(x); }
+  sh.append(list); bg.append(sh);
+  bg.addEventListener('click', (e) => { if (e.target === bg) closeSheet(); });
+  list.addEventListener('click', () => setTimeout(closeSheet, 0));
+  document.body.append(bg); document.body.classList.add('sheet-open');
+  requestAnimationFrame(() => bg.classList.add('in'));
+  const on = list.querySelector('a.on'); if (on) on.scrollIntoView({ block: 'center' });
+}
+function closeSheet() { const bg = document.getElementById('sheet'); if (bg) bg.remove(); document.body.classList.remove('sheet-open'); }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+
 function select(key, options, current) {
   const s = el('select'); s.setAttribute('aria-label', key);
   for (const [v, label] of options) { const o = el('option', '', label); o.value = v; o.selected = v === current; s.append(o); }
