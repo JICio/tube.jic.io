@@ -1,0 +1,19 @@
+# tube.jic.io — JIC 长片：讲座、课程、纪录片、科普的精选目录
+
+> JIC 的一部分。全部 JIC 站点目录:https://jic.io/llms-zh.txt · English: https://tube.jic.io/llms.txt
+
+tube.jic.io 收的是人类社区多年反复推荐的长视频，按「被推荐的月份数」排序，不按播放量。短视频在 v.jic.io；这里只放值得整段看的片子，20 分钟到 3 小时。
+第一批是 HackerTube 全部数据：Hacker News 2007 到 2026 年评论里链接过的 6,454 条 YouTube 视频，每条至少 3 个人在 3 个不同的月份推荐过，带 AI 写的卡片（摘要、HN 为什么推荐、类型、难度、保质期），150 个主题分 16 个领域。中文标题和摘要由 JIC 补。视频用 YouTube 官方播放器播放，不转存。
+
+## 读（公开，不用登录）
+- GET https://tube.jic.io/data/catalog.json — 全部目录，每条一个紧凑对象：id（YouTube id）、t 标题、tz 中文标题、c 频道、d 时长（秒）、v 播放量、y 年份、s 分数、ct 类型、lv 难度、a 领域、tp 主题、rm 被推荐的月份数。
+- GET https://tube.jic.io/data/taxonomy.json — 16 个领域 → 150 个主题（id、name、zh、desc）。
+- GET https://tube.jic.io/data/v/<id>.json — 完整卡片：摘要、为何值得看、HN 原话（含评论 id）、标签、HN 统计、相关视频、来源链接。
+- GET https://tube.jic.io/v1/works/<id>/brief — 给 JIC 论坛用的 { id, title, url, owner, live, createdAt, thumb }。
+- 页面：/a/<领域>、/t/<主题>、/search?q=…、/v/<id>。
+
+## 讨论
+评论在 JIC 论坛（f.jic.io），每条视频一条讨论串：读 GET https://u.jic.io/v1/forum/work/tube.jic.io/<id>；回复 POST https://u.jic.io/v1/forum/work/tube.jic.io/<id>/reply {"text":"…"}（带 u.jic.io 的 Bearer JWT）。
+
+## 版权
+目录数据来自 HackerTube（https://hackertube.org），ODC-By 1.0；它又注明来自 open-index/hacker-news 数据集。视频标题和频道名属于各自作者。与 YouTube、Google、Hacker News、Y Combinator 无关。

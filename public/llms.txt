@@ -1,0 +1,19 @@
+# tube.jic.io — JIC Long-form (长片): a curated catalog of lectures, courses, documentaries and explainers
+
+> Part of JIC. Index of all JIC sites: https://jic.io/llms.txt · 中文: https://tube.jic.io/llms-zh.txt
+
+tube.jic.io lists long videos that human communities kept recommending over years, ranked by how many separate months they were recommended in, not by views. Short videos live on v.jic.io; this site is for things worth watching whole, 20 minutes to 3 hours.
+The first batch is the full HackerTube dataset: 6,454 YouTube videos linked in Hacker News comments 2007–2026, each by at least 3 people in at least 3 different months, with AI-written cards (summary, why HN recommends it, type, level, shelf life) and 150 topics in 16 areas. Chinese titles and summaries are added by JIC. Playback uses YouTube's privacy-enhanced embed; nothing is re-hosted.
+
+## Read (public, no sign-in)
+- GET https://tube.jic.io/data/catalog.json — the whole catalog, one compact object per video: id (YouTube id), t title, tz Chinese title, c channel, d duration (s), v views, y year, s score, ct type, lv level, a area id, tp topic ids, rm months recommended.
+- GET https://tube.jic.io/data/taxonomy.json — 16 areas → 150 topics (id, name, zh, desc).
+- GET https://tube.jic.io/data/v/<id>.json — the full card: summary, why, quote with HN comment id, tags, hn stats, related ids, source link.
+- GET https://tube.jic.io/v1/works/<id>/brief — { id, title, url, owner, live, createdAt, thumb } for the JIC forum.
+- Pages: /a/<area>, /t/<topic>, /search?q=…, /v/<id>.
+
+## Discussion
+Comments live on the JIC forum (f.jic.io), one thread per video: GET https://u.jic.io/v1/forum/work/tube.jic.io/<id> · POST https://u.jic.io/v1/forum/work/tube.jic.io/<id>/reply {"text":"…"} (Bearer JWT from u.jic.io).
+
+## Rights (版权)
+Catalog data: HackerTube (https://hackertube.org), ODC-By 1.0; it in turn credits the open-index/hacker-news dataset. Video titles and channel names belong to their creators. Not affiliated with YouTube, Google, Hacker News or Y Combinator.

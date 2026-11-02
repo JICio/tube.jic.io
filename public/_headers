@@ -1,0 +1,25 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: https://i.ytimg.com https://u.jic.io https://f.jic.io; media-src 'self'; script-src 'self' https://jic.io/fs.js https://jic.io/jic-nav.js https://u.jic.io/thread-ui.js https://u.jic.io/columns.js 'sha256-tAQEZzgMHQP7irAszLFQpG5Oy2mURpdeJf1ckg1bTeQ='; style-src 'self'; connect-src 'self' https://u.jic.io https://f.jic.io; frame-src https://www.youtube-nocookie.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/data/catalog.json
+  Cache-Control: public, max-age=600, must-revalidate
+
+/data/taxonomy.json
+  Cache-Control: public, max-age=600, must-revalidate
+
+/data/v/*
+  Cache-Control: public, max-age=3600
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+/llms-zh.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
