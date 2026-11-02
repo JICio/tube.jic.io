@@ -45,15 +45,15 @@ for (const v of videos) {
   if (m.duration) withMeta++;
   const year = m.upload_date ? Number(String(m.upload_date).slice(0, 4)) : null;
   catalog.push({
-    id: v.vid, t: v.title, tz: z.tz || '', c: v.channel, d: m.duration || 0, v: m.view_count || 0, y: year,
+    id: v.vid, t: v.title, tz: '', c: v.channel, d: m.duration || 0, v: m.view_count || 0, y: year,
     s: v.score, ct: v.content_type, lv: v.level, sl: v.shelf_life,
     a: v.categories[0]?.area || '', tp: v.categories.map((c) => c.id), pt: v.primary_topic || '',
     hy: v.hn.first_year, rm: v.hn.rec_months, src: 'hn',
   });
   putCard({
-    id: v.vid, src: 'hn', url: v.url, title: v.title, tz: z.tz || '', channel: v.channel, channelId: m.channel_id || '',
+    id: v.vid, src: 'hn', url: v.url, title: v.title, tz: '', channel: v.channel, channelId: m.channel_id || '',
     duration: m.duration || 0, views: m.view_count || 0, likes: m.like_count || 0, uploaded: m.upload_date || '', lang: m.language || '',
-    summary: v.summary, sz: z.sz || '', why: v.why_hn, wz: z.wz || '',
+    summary: v.summary, sz: '', why: v.why_hn, wz: '',
     type: v.content_type, level: v.level, shelf: v.shelf_life, topic: v.primary_topic, tags: v.tags,
     categories: v.categories, quote: v.quote, hn: v.hn, score: v.score,
     related: (related[v.vid] || []).slice(0, 12),
@@ -74,9 +74,9 @@ for (const list of Object.values(byChannel)) {
     const area = topicArea[topic] || '';
     const score = Math.round(Math.log10(c.views + 1) * 15) / 10;   // 100 万播放 ≈ 9，和 HN 分数同量级
     chCount++;
-    catalog.push({ id: c.id, t: c.title, tz: z.tz || '', c: c.channel, d: c.duration, v: c.views, y: null, s: score, ct: c.kind, lv: 'general', sl: 'evergreen', a: area, tp: topic ? [topic] : [], pt: '', hy: null, rm: 0, src: 'ch' });
+    catalog.push({ id: c.id, t: c.title, tz: '', c: c.channel, d: c.duration, v: c.views, y: null, s: score, ct: c.kind, lv: 'general', sl: 'evergreen', a: area, tp: topic ? [topic] : [], pt: '', hy: null, rm: 0, src: 'ch' });
     putCard({
-      id: c.id, src: 'ch', url: `https://www.youtube.com/watch?v=${c.id}`, title: c.title, tz: z.tz || '', channel: c.channel, channelId: '',
+      id: c.id, src: 'ch', url: `https://www.youtube.com/watch?v=${c.id}`, title: c.title, tz: '', channel: c.channel, channelId: '',
       duration: c.duration, views: c.views, likes: 0, uploaded: '', lang: '',
       summary: '', sz: '', why: '', wz: '', type: c.kind, level: 'general', shelf: 'evergreen', topic: '', tags: [],
       categories: topic ? [{ id: topic, area }] : [], quote: null, hn: null, score,
