@@ -12,6 +12,8 @@ const AREA_ICON = {
 };
 const TYPE_ZH = { talk: '演讲', lecture: '讲座', course: '课程', explainer: '讲解', documentary: '纪录片', tutorial: '教程', interview: '访谈', podcast: '播客', demo: '演示', news: '新闻', commentary: '评论', comedy: '喜剧', music: '音乐', other: '其他' };
 const LEVEL_ZH = { general: '通识', intro: '入门', intermediate: '进阶', advanced: '高阶' };
+// 下面这些类型 / 难度名在代码里经变量传给 t()，抽文案的脚本看不到，列在这里给 scripts/i18n.mjs 抽：
+// t('演讲') t('讲座') t('课程') t('讲解') t('纪录片') t('教程') t('访谈') t('播客') t('演示') t('新闻') t('评论') t('喜剧') t('音乐') t('其他') t('通识') t('入门') t('进阶') t('高阶')
 const PAGE = 48;
 let catalog = [], taxonomy = { areas: [] }, byId = new Map(), topicById = new Map(), areaById = new Map();
 const state = { area: '', topic: '', type: '', dur: '', sort: 'hn', src: '', q: '', shown: PAGE };
