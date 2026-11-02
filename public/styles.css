@@ -89,18 +89,47 @@ img { display: block; }
 
 /* 手机 */
 @media (max-width: 860px) {
-  .top { height: 52px; gap: 10px; }
-  .brand small, .letters { display: none; }
-  .layout { grid-template-columns: 1fr; }
-  .side { position: static; max-height: none; overflow: visible; display: flex; gap: 6px; padding: 10px 12px 0; border-right: 0; overflow-x: auto; scrollbar-width: none; }
+  .top { height: 52px; gap: 8px; padding: 0 max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left)); }
+  .brand span, .brand small, .letters, .lang { display: none; }
+  .brand svg { width: 26px; height: 26px; }
+  .search { max-width: none; margin: 0; }
+  .search input { height: 38px; font-size: 16px; }   /* 16px：iOS 聚焦时不放大页面 */
+  .search button { height: 38px; width: 42px; }
+  .layout { grid-template-columns: 1fr; min-height: 0; }
+  .side { position: sticky; top: 52px; z-index: 20; max-height: none; display: flex; gap: 6px; padding: 8px 12px; border-right: 0; border-bottom: 1px solid var(--line); background: rgba(11,11,11,.95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+  .side::-webkit-scrollbar { display: none; }
   .side .head { display: none; }
-  .side a { flex: none; min-height: 30px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 12.5px; }
+  .side a { flex: none; min-height: 32px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; scroll-snap-align: center; }
+  .side a.on { border-color: transparent; }
   .side a small { display: none; }
-  .main { padding: 12px 12px 32px; }
-  .grid { grid-template-columns: 1fr; gap: 16px; }
-  .video h1 { font-size: 18px; }
-  .player { border-radius: 8px; }
+  .main { padding: 12px 12px calc(32px + 72px + env(safe-area-inset-bottom)); }   /* 底部留出全站导航底栏 */
+  .listhead h1 { font-size: 18px; }
+  .listhead p { font-size: 13px; }
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -12px 12px; padding: 0 12px; -webkit-overflow-scrolling: touch; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; min-height: 32px; display: inline-flex; align-items: center; }
+  .toolbar { gap: 8px; }
+  .toolbar select { flex: 1 1 40%; min-width: 0; height: 36px; font-size: 14px; }
+  .grid { grid-template-columns: 1fr; gap: 18px; }
+  .card h3 { font-size: 15px; }
+  .card .meta { white-space: normal; font-size: 12.5px; }
+  .more { padding: 14px; }
+  .video { max-width: none; }
+  .crumb { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .player { margin: 0 -12px; border-radius: 0; box-shadow: none; }
+  .player .play span { width: 64px; height: 64px; font-size: 24px; }
+  .video h1 { margin: 14px 0 6px; font-size: 18px; line-height: 1.35; }
+  .video .meta { gap: 4px 10px; font-size: 12.5px; }
+  .video .desc p { font-size: 15px; }
+  .video .links { gap: 6px; }
+  .video .links a { padding: 8px 12px; font-size: 13px; }
+  .video h2 { font-size: 15px; }
 }
+@media (max-width: 400px) { .grid { gap: 14px; } .side a { padding: 4px 10px; font-size: 12.5px; } }
+/* 横屏手机：播放器别占满整屏高度 */
+@media (max-width: 860px) and (orientation: landscape) { .player { margin: 0 auto; max-width: 70vh; aspect-ratio: 16 / 9; border-radius: 10px; } }
 .foot { padding: 20px max(16px, env(safe-area-inset-right)) 28px; border-top: 1px solid var(--line); color: var(--faint); font-size: 12px; }
 .foot a { color: var(--muted); text-decoration: underline; }
 .card .hn.ch { color: #9ad8ff; border-color: rgba(154,216,255,.45); }
+.lang { height: 32px; padding: 0 6px; color: var(--muted); background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; }
+@media (max-width: 860px) { .lang { display: none; } }

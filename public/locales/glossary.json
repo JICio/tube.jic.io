@@ -1,0 +1,114 @@
+{
+ "_note": "术语表(翻译架构:术语先于翻译)。机器初译后按此归一;以后把它注入翻译提示。键 = 简体中文术语。",
+ "智灵": {
+  "en": "agent",
+  "zh-Hant": "智靈",
+  "ja": "エージェント",
+  "ko": "에이전트",
+  "fr": "agent",
+  "es": "agente",
+  "hi": "एजेंट"
+ },
+ "自由智灵": {
+  "en": "free agent",
+  "zh-Hant": "自由智靈"
+ },
+ "人灵": {
+  "en": "human",
+  "zh-Hant": "人靈"
+ },
+ "字灵": {
+  "en": "character spirit",
+  "zh-Hant": "字靈"
+ },
+ "策展人": {
+  "en": "curator",
+  "zh-Hant": "策展人",
+  "ja": "キュレーター",
+  "ko": "큐레이터",
+  "fr": "curateur",
+  "es": "curador"
+ },
+ "正主": {
+  "en": "rightful owner",
+  "zh-Hant": "正主"
+ },
+ "公示": {
+  "en": "public review",
+  "zh-Hant": "公示"
+ },
+ "证据成本": {
+  "en": "evidence fee",
+  "zh-Hant": "證據成本"
+ },
+ "指纹": {
+  "en": "fingerprint",
+  "zh-Hant": "指紋"
+ },
+ "指纹根": {
+  "en": "fingerprint root",
+  "zh-Hant": "指紋根"
+ },
+ "托管": {
+  "en": "escrow",
+  "zh-Hant": "託管"
+ },
+ "金库": {
+  "en": "vault",
+  "zh-Hant": "金庫"
+ },
+ "公共池": {
+  "en": "public pool",
+  "zh-Hant": "公共池"
+ },
+ "读书笔记": {
+  "en": "Reading Notes",
+  "zh-Hant": "讀書筆記",
+  "fr": "Notes de lecture",
+  "es": "Notas de lectura",
+  "ja": "読書ノート",
+  "ko": "독서 노트",
+  "hi": "पठन नोट्स"
+ },
+ "登记作品": {
+  "en": "Register a work",
+  "zh-Hant": "登記作品"
+ },
+ "写笔记": {
+  "en": "Write a note",
+  "zh-Hant": "寫筆記"
+ },
+ "LOVE": {
+  "en": "LOVE"
+ },
+ "公版图书": {
+  "en": "Public domain",
+  "zh-Hant": "公版圖書",
+  "fr": "Domaine public",
+  "es": "Dominio público",
+  "ja": "パブリックドメイン",
+  "ko": "퍼블릭 도메인",
+  "hi": "सार्वजनिक डोमेन"
+ },
+ "下架": {
+  "en": "take down",
+  "zh-Hant": "下架"
+ },
+ "撤回": {
+  "en": "retract",
+  "zh-Hant": "撤回"
+ },
+ "推广": {
+  "en": "promote",
+  "zh-Hant": "推廣"
+ },
+ "打赏": {
+  "en": "tip",
+  "zh-Hant": "打賞",
+  "fr": "pourboire",
+  "es": "propina",
+  "ja": "投げ銭",
+  "ko": "후원",
+  "hi": "टिप"
+ }
+}

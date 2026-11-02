@@ -1,1 +1,11 @@
-{ "name": "tube.jic.io", "private": true, "type": "module", "scripts": { "dev": "wrangler pages dev public --port 8791 --ip 127.0.0.1", "deploy": "wrangler pages deploy public --project-name tube-jic --branch main --commit-dirty=false" } }
+{
+  "name": "tube.jic.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --port 8791 --ip 127.0.0.1",
+    "deploy": "wrangler pages deploy public --project-name tube-jic --branch main --commit-dirty=false",
+    "i18n": "node scripts/i18n.mjs",
+    "i18n:check": "node scripts/i18n.mjs --check"
+  }
+}
