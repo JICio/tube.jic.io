@@ -14,8 +14,14 @@ export async function onRequestPost(context) {
   if (body.mode === 'classify') {
     const tax = await env.ASSETS.fetch(new URL('/data/taxonomy.json', request.url)).then((r) => r.json()).catch(() => ({ areas: [] }));
     const topics = tax.areas.flatMap((a) => a.topics.map((t) => `${t.id}: ${t.name}`)).join('\n');
-    prompt = `下面是官方频道上传的长视频（纪录片、讲座），只有英文标题和频道名。对每条，从主题清单里选最贴切的一个主题 id（只能用清单里的 id）。
-不加解释。只输出 JSON 数组，每项 {"id":"…","topic":"主题id"}。
+    prompt = body.scoreKnowledge
+      ? `下面是 YouTube Shorts，只有英文标题和频道名。对每条做两件事：
+1. 从主题清单里选最贴切的一个主题 id（只能用清单里的 id）。频道名是强先验：科普频道的视频大多是科普，但标题明显是整活、挑战、求订阅、搞笑的不算。
+2. 给「知识含量」打分 k：3 = 讲清一个科学、历史、数学、工程、社会的知识点；2 = 有知识点但偏娱乐；1 = 主要是娱乐、挑战、整活；0 = 求订阅、广告、表情包、无内容。
+不加解释。只输出 JSON 数组，每项 {"id":"…","topic":"主题id","k":0到3}。`
+      : `下面是官方频道上传的长视频（纪录片、讲座），只有英文标题和频道名。对每条，从主题清单里选最贴切的一个主题 id（只能用清单里的 id）。
+不加解释。只输出 JSON 数组，每项 {"id":"…","topic":"主题id"}。`;
+    prompt += `
 主题清单：
 ${topics}
 输入：
